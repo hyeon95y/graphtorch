@@ -81,9 +81,6 @@ def sort_nodes(nodes):
     nodes_sorted = input_nodes + hidden_nodes + output_nodes
     return nodes_sorted
 
-from graphtorch.wiring.parallel import connect_parallel_connections
-from graphtorch.wiring.predefined import all_to_all
-
 def maximum_num_of_connections(
     in_dim,
     out_dim,
@@ -92,30 +89,28 @@ def maximum_num_of_connections(
     parallel=False,
     num_nodes_in_depth=None,
 ):
+
     if parallel:
-        node_dims = list(range(sum(num_nodes_in_depth)))
-        empty_connection = create_empty_connection_dataframe(
-            node_dims, in_dim, out_dim, split_input_layer, split_output_layer,
-        )
-        (
-            parallel_connection,
-            nodes_per_depth,
-            num_total_connections,
-        ) = connect_parallel_connections(
-            empty_connection,
-            in_dim,
-            out_dim,
-            num_nodes_in_depth,
-            split_input_layer,
-            split_output_layer,
-            layer_sparsity=0,
-        )
-        parallel_connection = all_to_all(
-            parallel_connection, parallel=True, nodes_per_depth=nodes_per_depth
-        )
-        max_connections = parallel_connection.count().sum()
+        max_connections = 0
+        nodes_per_dim = []
+        if split_input_layer :
+            nodes_per_dim += [in_dim]
+        else : 
+            nodes_per_dim += [1]
+        nodes_per_dim += num_nodes_in_depth
+        if split_output_layer : 
+            nodes_per_dim += [out_dim]
+        else : 
+            nodes_per_dim += [1]
+        for idx_from, num_nodes_from in enumerate(nodes_per_dim) :
+
+            all_nodes_after_me = 0
+            for idx_to, num_nodes_to in enumerate(nodes_per_dim[idx_from+1:]) :
+                all_nodes_after_me += num_nodes_to
+            max_connections += num_nodes_from * all_nodes_after_me
     else:
         raise NotImplementedError()
+    
 
     return max_connections
 
@@ -131,3 +126,4 @@ def in_same_depth(node1, node2, nodes_per_depth):
             if node1 in nodes and node2 in nodes:
                 return True
     return False
+
