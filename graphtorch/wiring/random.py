@@ -10,7 +10,6 @@ from graphtorch.wiring.utils import sort_nodes
 from graphtorch.wiring.utils import maximum_num_of_connections
 from graphtorch.wiring.utils import in_same_depth
 
-
 def connect_random_connections(
     empty_connection,
     in_dim,
@@ -114,20 +113,29 @@ def connect_random_connections(
         num_nodes_in_depth=num_nodes_in_depth,
     )
     current_network_sparsity = 1 - (num_total_connections / num_maximum_connections)
-    while current_network_sparsity > network_sparsity:
-        node_from = np.random.choice(all_nodes)
+    #
+    # Get candidates of possible connections
+    #
+    all_possible_connections = {}
+    all_possible_connections_key = 0
+    for node_from in all_nodes : 
         all_other_nodes_to = all_nodes[all_nodes.index(node_from) + 1 :]
-        if len(all_other_nodes_to) != 0:
-            node_to = np.random.choice(all_other_nodes_to)
-            if not in_same_depth(
-                node1=node_from, node2=node_to, nodes_per_depth=nodes_per_depth
-            ):
-                if random_connection.isna().loc[node_from, node_to]:
-                    random_connection.loc[node_from, node_to] = 1 - layer_sparsity
-                    num_total_connections += 1
-                    current_network_sparsity = 1 - (
-                        num_total_connections / num_maximum_connections
-                    )
+        if len(all_other_nodes_to) != 0 :
+            for node_to in all_other_nodes_to :
+                if not in_same_depth(node1=node_from, node2=node_to, nodes_per_depth=nodes_per_depth) :
+                    if random_connection.isna().loc[node_from, node_to] : 
+                        all_possible_connections[all_possible_connections_key] = [node_from, node_to]
+                        all_possible_connections_key += 1
+    #
+    # Connect until sparsity reaches desired level
+    #
+    while current_network_sparsity > network_sparsity : 
+        new_connection_key = np.random.choice(range(0, all_possible_connections_key), replace=False)
+        new_connection = all_possible_connections[new_connection_key]
+        node_from, node_to = new_connection[0], new_connection[1]
+        random_connection.loc[node_from, node_to] = 1 - layer_sparsity
+        num_total_connections += 1
+        current_network_sparsity = 1 - (num_total_connections/num_maximum_connections)
 
     return random_connection, nodes_per_depth, num_total_connections
 
@@ -176,3 +184,4 @@ def create_random_connections(
     }
 
     return connections
+
