@@ -1,3 +1,3 @@
-from .predefined import input_to_all
-from .predefined import all_to_output
-from .predefined import all_to_all
+from graphtorch.wiring.parallel import connect_parallel
+from graphtorch.wiring.random import connect_randomly
+from graphtorch.wiring.sequential import connect_sequential
