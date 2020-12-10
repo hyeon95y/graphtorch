@@ -30,7 +30,8 @@ class GraphLayer(nn.Module):
                     self.wires[
                         "%s_%s" % (node_key_from, node_key_to)
                     ] = self.feature_matrix["wire"].loc[node_key_from, node_key_to](
-                        in_dim, out_dim,
+                        in_dim,
+                        out_dim,
                     )
 
     def forward(self, x: Tensor):

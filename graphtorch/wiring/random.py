@@ -35,7 +35,9 @@ def connect_randomly(graph: Graph, seed: int = 0, network_sparsity: float = 0.4)
     # Randomly add connections until converges to predefined netowrk sparsity
     #
     graph = add_connections_until_target_network_sparsity(
-        graph, network_sparsity, nodes_per_hidden_layer,
+        graph,
+        network_sparsity,
+        nodes_per_hidden_layer,
     )
 
     return graph
@@ -78,7 +80,9 @@ def distribute_nodes_randomly(hidden_node_dims: list):
 
 
 def add_connections_until_target_network_sparsity(
-    graph:Graph, network_sparsity:float, nodes_per_hidden_layer:list,
+    graph: Graph,
+    network_sparsity: float,
+    nodes_per_hidden_layer: list,
 ):
     current_network_sparsity = get_network_sparsity(graph, nodes_per_hidden_layer)
 
@@ -90,7 +94,8 @@ def add_connections_until_target_network_sparsity(
     while current_network_sparsity > network_sparsity:
 
         new_connection_key = np.random.choice(
-            range(0, all_possible_connections_key), replace=False,
+            range(0, all_possible_connections_key),
+            replace=False,
         )
         new_connection = all_possible_connections[new_connection_key]
         node_from, node_to = new_connection[0], new_connection[1]

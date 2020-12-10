@@ -1,7 +1,8 @@
 from graphtorch.graph import Graph
 from graphtorch.graph.utils import get_node_keys
 
-def in_hidden_out_dim_from_graph(graph:Graph):
+
+def in_hidden_out_dim_from_graph(graph: Graph):
     node_keys = graph.adjacency_matrix.columns
     split_input_layer = True if len([x for x in node_keys if "I:" in x]) > 1 else False
     split_output_layer = True if len([x for x in node_keys if "O:" in x]) > 1 else False
@@ -52,7 +53,7 @@ def get_depth(node: str, nodes_per_hidden_layer: list):
             return layer_idx
 
 
-def get_all_possible_connections(graph:Graph, nodes_per_hidden_layer: list):
+def get_all_possible_connections(graph: Graph, nodes_per_hidden_layer: list):
 
     (
         in_dim,
@@ -62,7 +63,11 @@ def get_all_possible_connections(graph:Graph, nodes_per_hidden_layer: list):
         split_output_layer,
     ) = in_hidden_out_dim_from_graph(graph)
     node_keys_all = get_node_keys(
-        in_dim, out_dim, hidden_node_dims, split_input_layer, split_output_layer,
+        in_dim,
+        out_dim,
+        hidden_node_dims,
+        split_input_layer,
+        split_output_layer,
     )
 
     all_possible_connections = {}
@@ -87,7 +92,7 @@ def get_all_possible_connections(graph:Graph, nodes_per_hidden_layer: list):
     return all_possible_connections, all_possible_connections_key
 
 
-def get_network_sparsity(graph:Graph, nodes_per_hidden_layer: list):
+def get_network_sparsity(graph: Graph, nodes_per_hidden_layer: list):
     num_current_connections = graph.adjacency_matrix.sum().sum()
     num_max_connections = maximum_num_of_connections(graph, nodes_per_hidden_layer)
 
@@ -96,7 +101,7 @@ def get_network_sparsity(graph:Graph, nodes_per_hidden_layer: list):
     return current_network_sparsity
 
 
-def maximum_num_of_connections(graph:Graph, nodes_per_hidden_layer: list):
+def maximum_num_of_connections(graph: Graph, nodes_per_hidden_layer: list):
 
     (
         in_dim,

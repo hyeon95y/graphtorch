@@ -23,7 +23,8 @@ def connect_sequential(graph: Graph):
     # Connect all hidden nodes to next hidden node
     #
     for node_key_hidden_from, node_key_hidden_to in zip(
-        node_keys_hidden, node_keys_hidden[1:],
+        node_keys_hidden,
+        node_keys_hidden[1:],
     ):
         graph[node_key_hidden_from, node_key_hidden_to] = True
     #

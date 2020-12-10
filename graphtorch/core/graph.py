@@ -38,22 +38,38 @@ class Graph:
         # Keys, dims
         #
         self.node_keys = get_node_keys(
-            in_dim, out_dim, hidden_node_dims, split_input_layer, split_output_layer,
+            in_dim,
+            out_dim,
+            hidden_node_dims,
+            split_input_layer,
+            split_output_layer,
         )
         self.node_dims = get_node_dims(
-            in_dim, out_dim, hidden_node_dims, split_input_layer, split_output_layer,
+            in_dim,
+            out_dim,
+            hidden_node_dims,
+            split_input_layer,
+            split_output_layer,
         )
         #
         # Matrixes defining network
         #
         self.adjacency_matrix = empty_matrix(
-            in_dim, out_dim, hidden_node_dims, split_input_layer, split_output_layer,
+            in_dim,
+            out_dim,
+            hidden_node_dims,
+            split_input_layer,
+            split_output_layer,
         )
         self.feature_keys = ["sparsity", "wire", "dimension"]
         self.feature_matrix = {}
         for feature_key in self.feature_keys:
             self.feature_matrix[feature_key] = empty_matrix(
-                in_dim, out_dim, hidden_node_dims, split_input_layer, split_output_layer,
+                in_dim,
+                out_dim,
+                hidden_node_dims,
+                split_input_layer,
+                split_output_layer,
             )
             if feature_key == "dimension":
                 for node_idx, node_key in enumerate(self.node_keys):
@@ -97,7 +113,11 @@ def empty_matrix(
 ):
 
     nodes = get_node_keys(
-        in_dim, out_dim, hidden_node_dims, split_input_layer, split_output_layer,
+        in_dim,
+        out_dim,
+        hidden_node_dims,
+        split_input_layer,
+        split_output_layer,
     )
 
     matrix = pd.DataFrame(columns=nodes, index=nodes).rename_axis("FROM\TO")

@@ -11,7 +11,8 @@ def connect_parallel(graph: Graph, nodes_per_hidden_layer: list):
     # Get node keys
     #
     node_keys_input, node_keys_hidden, node_keys_output = split_node_keys(
-        graph.node_keys, nodes_per_hidden_layer,
+        graph.node_keys,
+        nodes_per_hidden_layer,
     )
     #
     # Connect all input node to hidden node at layer 0
@@ -24,7 +25,8 @@ def connect_parallel(graph: Graph, nodes_per_hidden_layer: list):
     # Connect all hidden nodes to next hidden node
     #
     for layer_idx_from, node_keys_hidden_from in zip(
-        list(node_keys_hidden.keys())[:-1], list(node_keys_hidden.values())[:-1],
+        list(node_keys_hidden.keys())[:-1],
+        list(node_keys_hidden.values())[:-1],
     ):
         layer_idx_to = layer_idx_from + 1
         node_keys_hidden_to = node_keys_hidden[layer_idx_to]
