@@ -5,7 +5,7 @@ from typing import Union
 import torch.nn as nn
 from torch import Tensor
 
-from graphtorch.graph import Graph
+from graphtorch.core import Graph
 
 
 class GraphLayer(nn.Module):

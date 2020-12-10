@@ -1,1 +1,2 @@
-from graphtorch.graph.graph import Graph
+from graphtorch.core.graph import Graph
+from graphtorch.core.layer import GraphLayer

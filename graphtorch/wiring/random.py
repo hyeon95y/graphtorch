@@ -7,9 +7,9 @@ from typing import Union
 import numpy as np
 import torch
 
-from graphtorch.graph import Graph
-from graphtorch.graph.utils import get_node_keys
-from graphtorch.graph.utils import split_node_keys
+from graphtorch.core import Graph
+from graphtorch.core.utils import get_node_keys
+from graphtorch.core.utils import split_node_keys
 from graphtorch.wiring import connect_parallel
 from graphtorch.wiring.utils import get_all_possible_connections
 from graphtorch.wiring.utils import get_network_sparsity

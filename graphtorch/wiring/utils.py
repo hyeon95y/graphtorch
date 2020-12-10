@@ -1,5 +1,5 @@
-from graphtorch.graph import Graph
-from graphtorch.graph.utils import get_node_keys
+from graphtorch.core import Graph
+from graphtorch.core.utils import get_node_keys
 
 
 def in_hidden_out_dim_from_graph(graph: Graph):

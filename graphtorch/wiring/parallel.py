@@ -2,8 +2,8 @@ from typing import Dict
 from typing import Iterable
 from typing import Union
 
-from graphtorch.graph import Graph
-from graphtorch.graph.utils import split_node_keys
+from graphtorch.core import Graph
+from graphtorch.core.utils import split_node_keys
 
 
 def connect_parallel(graph: Graph, nodes_per_hidden_layer: list):

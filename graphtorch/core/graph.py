@@ -5,8 +5,8 @@ from typing import Union
 import pandas as pd
 import torch.nn as nn
 
-from graphtorch.graph.utils import get_node_dims
-from graphtorch.graph.utils import get_node_keys
+from graphtorch.core.utils import get_node_dims
+from graphtorch.core.utils import get_node_keys
 
 
 class Graph:
