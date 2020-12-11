@@ -8,10 +8,10 @@ repos:
     -   id: check-added-large-files
         args: ['--maxkb=1000']
     -   id: requirements-txt-fixer
--   repo: https://github.com/ambv/black
-    rev: stable
-    hooks:
-    - id: black
+      #-   repo: https://github.com/ambv/black
+      #    rev: stable
+      #    hooks:
+      #    - id: black
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.7.9
     hooks:
