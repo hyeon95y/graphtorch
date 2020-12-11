@@ -1,7 +1,3 @@
-from typing import Dict
-from typing import Iterable
-from typing import Union
-
 import pandas as pd
 import torch.nn as nn
 
@@ -74,7 +70,8 @@ class Graph:
             if feature_key == "dimension":
                 for node_idx, node_key in enumerate(self.node_keys):
                     self.feature_matrix[feature_key].loc[
-                        node_key, node_key
+                        node_key,
+                        node_key,
                     ] = self.node_dims[node_idx]
 
     def __getitem__(self, index: tuple):
@@ -103,6 +100,38 @@ class Graph:
             raise IndexError("%s, %s not in matrix" % (index[0], index[1]))
         return
 
+    def add_node(self, n: int, m: int, dim: int, activation_function=None):
+        node_key_from = self.node_keys[n]
+        node_key_to = self.node_keys[m]
+        connection_exists = pd.notna(
+            self.adjacency_matrix.loc[node_key_from, node_key_to],
+        )
+        print(node_key_from, node_key_to, connection_exists)
+        if connection_exists is True:
+            print("add connection")
+
+            #
+            # get last node in current level
+            #
+
+            # first node connected to 'node_from'
+            node_connected_node_key_from = self.adjacency_matrix.loc[node_key_from, :]
+            print(node_connected_node_key_from)
+
+            # last node connected to 'first node'
+
+            # n+1 node will be new node
+
+            # rename & reorder nodes
+
+        else:
+            raise AssertionError(
+                "Previous connection from %s to %s doesn't exist"
+                % (node_key_from, node_key_to),
+            )
+
+        return
+
 
 def empty_matrix(
     in_dim: int,
@@ -120,7 +149,7 @@ def empty_matrix(
         split_output_layer,
     )
 
-    matrix = pd.DataFrame(columns=nodes, index=nodes).rename_axis("FROM\TO")
+    matrix = pd.DataFrame(columns=nodes, index=nodes).rename_axis("FROM|TO")
     return matrix
 
 
