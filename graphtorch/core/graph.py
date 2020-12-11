@@ -1,5 +1,9 @@
+import copy
+
 import pandas as pd
 import torch.nn as nn
+from IPython import get_ipython
+from IPython.display import display
 
 from graphtorch.core.utils import get_node_dims
 from graphtorch.core.utils import get_node_keys
@@ -130,6 +134,26 @@ class Graph:
                 % (node_key_from, node_key_to),
             )
 
+        return
+
+    def show(self, adjacency_matrix=True, feature_matrix=False):
+        def is_ipynb():
+            return type(get_ipython()).__module__.startswith('ipykernel.')
+
+        def show_without_nan(matrix):
+            if is_ipynb():
+                display(copy.deepcopy(matrix).fillna("-"))
+            else:
+                print(copy.deepcopy(matrix).fillna("-"))
+            return
+
+        if adjacency_matrix is True:
+            show_without_nan(self.adjacency_matrix)
+
+        if feature_matrix is True:
+            for feature in self.feature_matrix.keys():
+                print(feature)
+                show_without_nan(self.feature_matrix[feature])
         return
 
 
