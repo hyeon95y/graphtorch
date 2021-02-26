@@ -1,12 +1,19 @@
-from typing import Dict
-from typing import Iterable
-from typing import Union
+from typing import List
 
 from graphtorch.core import Graph
 from graphtorch.core.utils import split_node_keys
 
 
-def connect_parallel(graph: Graph, nodes_per_hidden_layer: list):
+def connect_parallel(graph: Graph, nodes_per_hidden_layer: List):
+    """
+    Connects the graph to the next layer.
+
+    Args:
+        graph (Graph) :
+        nodes_per_hidden_layer (list) :
+
+
+    """
     #
     # Get node keys
     #

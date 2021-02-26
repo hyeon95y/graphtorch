@@ -1,21 +1,13 @@
 import os
 import random
-from typing import Dict
-from typing import Iterable
-from typing import Union
 
 import numpy as np
 import torch
 
 from graphtorch.core import Graph
-from graphtorch.core.utils import get_node_keys
-from graphtorch.core.utils import split_node_keys
 from graphtorch.wiring import connect_parallel
 from graphtorch.wiring.utils import get_all_possible_connections
 from graphtorch.wiring.utils import get_network_sparsity
-from graphtorch.wiring.utils import in_hidden_out_dim_from_graph
-from graphtorch.wiring.utils import in_same_depth
-from graphtorch.wiring.utils import maximum_num_of_connections
 
 
 def connect_randomly(graph: Graph, seed: int = 0, network_sparsity: float = 0.4):
@@ -63,9 +55,10 @@ def distribute_nodes_randomly(hidden_node_dims: list):
 
     for idx_layer in range(num_layers - 1):
         num_nodes_min = 1
-        num_nodes_max = (
-            len(hidden_node_dims) - (num_layers - idx_layer) - num_nodes_used + 1
-        )
+        num_nodes_max = len(hidden_node_dims) - (
+            num_layers
+            - idx_layer
+        ) - num_nodes_used + 1
         if num_nodes_max == 1:
             num_nodes_in_current_layer = 1
         else:

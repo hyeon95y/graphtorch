@@ -1,7 +1,4 @@
-from typing import Dict
-from typing import Iterable
-from typing import Union
-
+import torch
 import torch.nn as nn
 from torch import Tensor
 
@@ -27,9 +24,9 @@ class GraphLayer(nn.Module):
                 if self.adjacency_matrix.loc[node_key_from, node_key_to] is True:
                     in_dim = self.node_dims[node_idx_from]
                     out_dim = self.node_dims[node_idx_to]
-                    self.wires[
-                        "%s_%s" % (node_key_from, node_key_to)
-                    ] = self.feature_matrix["wire"].loc[node_key_from, node_key_to](
+                    self.wires["%s_%s" % (node_key_from, node_key_to)] = self.feature_matrix["wire"].loc[
+                        node_key_from, node_key_to,
+                    ](
                         in_dim,
                         out_dim,
                     )
@@ -48,9 +45,9 @@ class GraphLayer(nn.Module):
         #
         # All other nodes from previous nodes
         #
-        for node_key_to in self.node_keys[len(node_keys_input) :]:
+        for node_key_to in self.node_keys[len(node_keys_input):]:
             x_partial_sum = None
-            for node_key_from in self.node_keys[0 : self.node_keys.index(node_key_to)]:
+            for node_key_from in self.node_keys[0: self.node_keys.index(node_key_to)]:
                 if self.adjacency_matrix.loc[node_key_from, node_key_to] is True:
                     wire = self.wires["%s_%s" % (node_key_from, node_key_to)]
                     if x_partial_sum is None:

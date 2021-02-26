@@ -1,4 +1,5 @@
 import copy
+from typing import List
 
 import pandas as pd
 import torch.nn as nn
@@ -14,7 +15,7 @@ class Graph:
         self,
         in_dim: int,
         out_dim: int,
-        hidden_node_dims: list,
+        hidden_node_dims: List,
         split_input_layer: bool = False,
         split_output_layer: bool = False,
         global_wire_sparsity: float = 1,
@@ -30,9 +31,7 @@ class Graph:
         self.global_wire_sparsity = global_wire_sparsity
         self.global_wire = global_wire if global_wire is not None else default_wire
         self.global_wire_to_output = (
-            global_wire_to_output
-            if global_wire_to_output is not None
-            else default_wire_to_output
+            global_wire_to_output if global_wire_to_output is not None else default_wire_to_output
         )
         #
         # Keys, dims
@@ -131,7 +130,10 @@ class Graph:
         else:
             raise AssertionError(
                 "Previous connection from %s to %s doesn't exist"
-                % (node_key_from, node_key_to),
+                % (
+                    node_key_from,
+                    node_key_to,
+                ),
             )
 
         return

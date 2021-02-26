@@ -1,12 +1,16 @@
-from typing import Dict
-from typing import Iterable
-from typing import Union
-
 from graphtorch.core import Graph
 from graphtorch.core.utils import split_node_keys
 
 
 def connect_sequential(graph: Graph):
+    """
+    Connect sequential nodes to sequential graph.
+
+    Args:
+        graph (Graph) :
+
+
+    """
     #
     # Get node keys
     #

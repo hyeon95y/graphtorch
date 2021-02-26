@@ -1,12 +1,27 @@
+from typing import List
+
+
 def get_node_keys(
     in_dim: int,
     out_dim: int,
-    hidden_node_dims: list,
+    hidden_node_dims: List,
     split_input_layer: bool = False,
     split_output_layer: bool = False,
     concat: bool = True,
 ):
+    """
+    Get node keys.
 
+    Args:
+        in_dim (int) :
+        out_dim (int) :
+        hidden_node_dims (List) :
+        split_input_layer (bool) : Defaults to False
+        split_output_layer (bool) : Defaults to False
+        concat (bool) : Defaults to True
+
+
+    """
     node_keys = []
     node_keys += ["I:%d" % x for x in range(in_dim)] if split_input_layer else ["I:0"]
     node_keys += ["H:%d" % x for x in range(len(hidden_node_dims))]
@@ -18,7 +33,16 @@ def get_node_keys(
         return split_node_keys(node_keys)
 
 
-def split_node_keys(node_keys: list, nodes_per_hidden_layer: list = None):
+def split_node_keys(node_keys: List, nodes_per_hidden_layer: List = None):
+    """
+    Split the node keys into inputs and outputs.
+
+    Args:
+        node_keys (List) :
+        nodes_per_hidden_layer (List) : Defaults to None
+
+
+    """
     node_keys_input = [x for x in node_keys if "I:" in x]
     node_keys_output = [x for x in node_keys if "O:" in x]
     node_keys_hidden = [x for x in node_keys if "H:" in x]
@@ -30,14 +54,20 @@ def split_node_keys(node_keys: list, nodes_per_hidden_layer: list = None):
         node_idx_from, node_idx_to = 0, 0
         for layer_idx, num_nodes_per_hidden_layer in enumerate(nodes_per_hidden_layer):
             node_idx_to = node_idx_from + num_nodes_per_hidden_layer
-            node_keys_hidden_by_layer[layer_idx] = node_keys_hidden[
-                node_idx_from:node_idx_to
-            ]
+            node_keys_hidden_by_layer[layer_idx] = node_keys_hidden[node_idx_from:node_idx_to]
             node_idx_from += num_nodes_per_hidden_layer
         return node_keys_input, node_keys_hidden_by_layer, node_keys_output
 
 
-def sort_node_keys(node_keys: list):
+def sort_node_keys(node_keys: List):
+    """
+    Sort the node keys
+
+    Args:
+        node_keys (List) :
+
+
+    """
     node_keys_input = [x for x in node_keys if "I:" in x]
     node_keys_hidden = [x for x in node_keys if "H:" in x]
     node_keys_output = [x for x in node_keys if "O:" in x]
@@ -51,12 +81,24 @@ def sort_node_keys(node_keys: list):
 def get_node_dims(
     in_dim: int,
     out_dim: int,
-    hidden_node_dims: list,
+    hidden_node_dims: List,
     split_input_layer: bool = False,
     split_output_layer: bool = False,
     concat: bool = True,
 ):
+    """
+    Get node dimensions.
 
+    Args:
+        in_dim (int) :
+        out_dim (int) :
+        hidden_node_dims (List) :
+        split_input_layer (bool) : Defaults to False
+        split_output_layer (bool) : Defaults to False
+        concat (bool) : Defaults to True
+
+
+    """
     node_dims_input = [1 for x in range(in_dim)] if split_input_layer else [in_dim]
     node_dims_hidden = hidden_node_dims
     node_dims_output = [1 for x in range(out_dim)] if split_output_layer else [out_dim]

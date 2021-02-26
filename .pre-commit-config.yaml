@@ -26,10 +26,3 @@ repos:
     rev: v2.0.1
     hooks:
     -   id: add-trailing-comma
--   repo: local
-    hooks:
-    -   id: unit test
-        name: unit test
-        entry: python3 -m pytest -v tests
-        language: system
-        types: [python]
